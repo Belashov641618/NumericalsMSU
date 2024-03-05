@@ -27,7 +27,7 @@ def discrete_fourier_transformation_test(file_name:str= '58.txt'):
         'Спектр':                           (spectrum,  numpy.linspace(-N / 2 + 1, N / 2, N)),
         'Спектр (исправленная нумерация)':  (spectrum,  numpy.fft.fftshift(numpy.fft.fftfreq(N, 1)))
     }.items():
-        print("Сигнал: ")
+        print(f"{name}: ")
         for n, (x, value) in enumerate(zip(data_range, data), 1):
             print(f'{n}\t{x}\t{value.real}\t{value.imag}')
         print('')
