@@ -137,6 +137,8 @@ def test_euler():
 
     plot = TiledPlot(12*21/9, 12)
     plot.FontLibrary.MultiplyFontSize(0.7)
+    plot.description.bottom("t -->")
+    plot.description.left("u -->")
 
     row_:int
     col_: int
