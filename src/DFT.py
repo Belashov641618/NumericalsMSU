@@ -14,8 +14,8 @@ def discrete_fourier_transformation_test(file_name:str= '58.txt'):
 
     # Непосредственно вычисления
     signal = numpy.array(data)
-    spectrum = numpy.fft.fftshift(numpy.fft.fft(signal))
-    signal_recalculated = numpy.fft.ifft(numpy.fft.ifftshift(spectrum))
+    spectrum = numpy.roll(numpy.fft.fftshift(numpy.fft.fft(signal)), -1) / 16
+    signal_recalculated = numpy.fft.ifft(numpy.fft.ifftshift(spectrum) * 16)
     signal_deviations = numpy.abs(signal - signal_recalculated)
 
     # Вычисление рзмера данных
@@ -25,7 +25,7 @@ def discrete_fourier_transformation_test(file_name:str= '58.txt'):
     for name, (data, data_range) in {
         'Сигнал':                           (signal,    numpy.arange(0, N)),
         'Спектр':                           (spectrum,  numpy.linspace(-N / 2 + 1, N / 2, N)),
-        'Спектр (исправленная нумерация)':  (spectrum,  numpy.fft.fftshift(numpy.fft.fftfreq(N, 1)))
+        'Спектр (исправленная нумерация)':  (spectrum,  numpy.fft.fftshift(numpy.fft.fftfreq(N, 1)) * N)
     }.items():
         print(f"{name}: ")
         for n, (x, value) in enumerate(zip(data_range, data), 1):
@@ -44,7 +44,7 @@ def discrete_fourier_transformation_test(file_name:str= '58.txt'):
     graph_ranges = [
         numpy.arange(0, N),
         numpy.linspace(-N / 2 + 1, N / 2, N),
-        numpy.fft.fftshift(numpy.fft.fftfreq(N, 1)),
+        numpy.fft.fftshift(numpy.fft.fftfreq(N, 1)) * N,
         numpy.arange(0, N),
         numpy.arange(0, N)
     ]
@@ -86,4 +86,6 @@ def discrete_fourier_transformation_test(file_name:str= '58.txt'):
             plot.graph.description(f'{tittle} : {graph_type}')
 
     # Вывод графиков на экран
+    plot.finalize()
+    plot._Figure.savefig('temp.svg')
     plot.show()
